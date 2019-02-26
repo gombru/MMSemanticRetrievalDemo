@@ -33,7 +33,7 @@ _GOODBYE_MESSAGE = u'Goodbye'
 # from gensim import models
 import numpy as np
 import operator
-import base64
+# import base64
 
 
 # Set configuration
@@ -43,16 +43,16 @@ class Config():
         self.text_model_name = "glove_model_InstaCities1M.txt"
         self.img_embeddings_name = "triplet_softNegativeBatch_m50_notNormalize_frozen_glove_tfidf_SM_iter_260000"
         self.num_topics = 400
-        self.num_results = 14
+        self.num_results = 12
 
 # Loads Word2Vec or GloVe model
 def load_text_model(cfg):
-    if cfg.text_model_type == "word2vec":
-        print("Need to import gensim!")
-        # text_model = models.Word2Vec.load("../data/models/word2vec/" + cfg.text_model_name)
-    elif cfg.text_model_type == "glove":
+    # if cfg.text_model_type == "word2vec":
+    #     print("Need to import gensim!")
+    #     # text_model = models.Word2Vec.load("data/models/word2vec/" + cfg.text_model_name)
+    if cfg.text_model_type == "glove":
         text_model = {}
-        for line in open("../data/models/glove/" + cfg.text_model_name,'r'):
+        for line in open("data/models/glove/" + cfg.text_model_name,'r'):
             d = line.split(',')
             values = np.zeros(cfg.num_topics)
             for t in range(0, cfg.num_topics):
@@ -66,7 +66,7 @@ def load_text_model(cfg):
 # Loads precomputed image embeddings
 def load_img_embeddings(cfg):
     database = {}
-    file = open("../data/img_embeddings/" + cfg.img_embeddings_name + ".txt", "r")
+    file = open("data/img_embeddings/" + cfg.img_embeddings_name + ".txt", "r")
     for line in file:
         d = line.split(",")
         regression_values = np.zeros(cfg.num_topics)
@@ -77,9 +77,9 @@ def load_img_embeddings(cfg):
 
 # Infers word embedding
 def get_word_embedding(word, model, cfg):
-    if cfg.text_model_type == "word2vec":
-        embedding = model[word]
-    elif cfg.text_model_type == "glove":
+    # if cfg.text_model_type == "word2vec":
+    #     embedding = model[word]
+    if cfg.text_model_type == "glove":
         embedding = model[word]
     else:
         print("text_model_type " + str(cfg.text_model_type) + " not recognized")
@@ -158,11 +158,11 @@ def web_socket_transfer_data(request):
                 request.ws_stream.send_message(filenames, binary=False)
 
             # Got an img id, return img content
-            else:
-                with open('/home/rgomez/projects/MMSemanticRetrievalDemo/' + full_query, "rb") as imageFile:
-                    img_base64 = base64.b64encode(imageFile.read())
-                # print(" --> Image read.")
-                request.ws_stream.send_message(img_base64, binary=False)
+            # else:
+            #     with open('/home/rgomez/projects/MMSemanticRetrievalDemo/' + full_query, "rb") as imageFile:
+            #         img_base64 = base64.b64encode(imageFile.read())
+            #     # print(" --> Image read.")
+            #     request.ws_stream.send_message(img_base64, binary=False)
 
             if full_query == _GOODBYE_MESSAGE:
                 return
