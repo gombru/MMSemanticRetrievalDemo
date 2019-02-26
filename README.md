@@ -1,7 +1,7 @@
 # Multi-Modal Semantic Image Retrieval Demo
 
-A joint multi-modal space for images and words with semantic structure has been learnt from Social Media data in a self-supervised way.
-This demo lets explore that space, using words and images as queries, and allowing to perform arithmetics between them.
+**A joint multi-modal space for images and words with semantic structure has been learnt from Social Media data in a self-supervised way.
+This demo lets explore that space, using words and images as queries, and allowing to perform arithmetics between them.**
 
 **Find the running demo [here](https://gombru.github.io/MMSemanticRetrievalDemo/)!**
 
@@ -11,13 +11,16 @@ This demo lets explore that space, using words and images as queries, and allowi
 
 This demo shows the work in the following publications. Read them to understand what is it showing.
 
-Learning to Learn from Web Data through Deep Semantic Embeddings  
-ECCV MULA workshop, 2018.  
-https://arxiv.org/abs/1808.06368  
+**[Learning to Learn from Web Data through Deep Semantic Embeddings](https://arxiv.org/abs/1808.06368)**  
+ECCV MULA workshop, 2018.
+  
+**[Self-Supervised Learning from Web Data for Multimodal Retrieval](https://arxiv.org/abs/1901.02004)**  
+Book Chapter submitted to Multi-Modal Scene Understanding.
 
-Self-Supervised Learning from Web Data for Multimodal Retrieval  
-Book Chapter submitted to Multi-Modal Scene Understanding.  
-https://arxiv.org/abs/1901.02004  
+The work is also explained in a more informal way in this blog posts:
+**[Learning Image Topics from Instagram to Build an Image Retrieval System](https://gombru.github.io/2017/06/30/learning_from_instagram/)**  
+**[What Do People Think about Barcelona?](https://gombru.github.io/2018/01/12/insta_barcelona/)**  
+**[Learning to Learn from Web Data](https://gombru.github.io/2018/08/01/learning_from_web_data/)**  
 
 ## Demo configuration
 
@@ -25,7 +28,7 @@ This Demo uses **GloVe word embeddings**. The CNN to generate the image embeddin
 loss**, using soft negative captions as negative samples. This **differs with the loss used in the papers, which was a Cross-Entropy Loss** to directly regress text embeddings. 
 Contrastive loss has lead to significantly better results in later, not published yet, experiments.
 
-The GloVe model and CNN used in this demo have been trained with the **[InstaCities1M dataset](https://gombru.github.io/2018/08/01/InstaCities1M/)**, so expect a superior performance for queries related to Instagram typical posts and to cities featured in the dataset.
+The GloVe model and CNN used in this demo have been trained with the **[InstaCities1M dataset](https://gombru.github.io/2018/08/01/InstaCities1M/)**, so **expect a superior performance for queries related to Instagram typical posts and to cities featured in the dataset.** Go explore!
 
 ## Example queries you might try
 
