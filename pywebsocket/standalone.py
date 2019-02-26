@@ -1198,3 +1198,5 @@ if __name__ == '__main__':
 
 
 # vi:sts=4 sw=4 et
+
+# sudo python standalone.py -p 45993 -w ./

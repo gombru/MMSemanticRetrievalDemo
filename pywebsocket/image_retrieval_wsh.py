@@ -159,7 +159,7 @@ def web_socket_transfer_data(request):
 
             # Got an img id, return img content
             else:
-                with open('/home/raulgomez/datasets/MMSemanticRetrievalDemo/' + full_query, "rb") as imageFile:
+                with open('/home/rgomez/projects/MMSemanticRetrievalDemo/' + full_query, "rb") as imageFile:
                     img_base64 = base64.b64encode(imageFile.read())
                 # print(" --> Image read.")
                 request.ws_stream.send_message(img_base64, binary=False)
