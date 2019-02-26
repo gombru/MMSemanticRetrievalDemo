@@ -1,7 +1,7 @@
 # Multi-Modal Semantic Image Retrieval Demo
 
 A joint multi-modal space for images and words with semantic structure has been learnt from Social Media data in a self-supervised way.
-This demo let's explore that space, using words and images as queries, and allowing perform arithmetics between them.
+This demo lets explore that space, using words and images as queries, and allowing to perform arithmetics between them.
 
 **Find the running demo [here](https://gombru.github.io/MMSemanticRetrievalDemo/)!**
 
