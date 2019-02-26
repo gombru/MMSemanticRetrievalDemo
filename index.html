@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<!--cd /home/lluis/Research/TFCs/Andres/paper/extra/web_interface/pywebsocket-->
+<!--sudo su-->
+<!--PYTHONPATH=. python mod_pywebsocket/standalone.py -p 9998 -d example-->
+<html>
+<head>
+
+      <meta charset="UTF-8">
+      <title>Multi-Modal Semantic Retrieval</title>
+      <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css'>
+      <link rel="stylesheet" href="css/style.css">
+      <script type="text/javascript">
+         function ClickedImage(img)
+         {
+           for (i = 0; i < 20; i++)
+           {
+             try{document.getElementById(i).style.borderTop = "none";}
+             catch(err){break;}
+
+           }
+            document.getElementById(img.id).style.borderTop = "thick solid #6fff00";
+            var img_id = img.alt
+            img_id = img_id.replace('.jpg','');
+            img_id = img_id.replace('data/retrieval_img/word2vec/','');
+            img_id = img_id.replace('data/retrieval_img/glove/','');
+            document.getElementById("searchTxt").alt = img_id;
+            document.getElementById("searchTxt").value = "[IMG_" + img.id + "]";
+         }
+
+         function ShowImage(image_object,image_content)
+         {
+           // alert("putting image content to " +image_object.id);
+           image_object.src = 'data:image/jpeg;base64,' + image_content
+         }
+
+         function GetImageContent(image_object)
+         {
+            if ("WebSocket" in window)
+            {
+               //alert("WebSocket is supported by your Browser!");
+               // Let us open a web socket
+               var ws = new WebSocket("ws://localhost:9998/image_retrieval");
+               ws.onopen = function()
+               {
+                  // Web Socket is connected, send data using send()
+                  var msg = image_object.alt
+                  if (msg==''){
+                    document.getElementById("results").innerHTML = '<div style="width:700px; margin:auto;">Random message!</b><div>';
+                  } else if (msg=='Thanks!'){
+                    document.getElementById("results").innerHTML = '<div style="width:700px; margin:auto;"><br><br><br><br><b>Thanks for watching!</b><div>';
+                  } else {
+                    ws.send(msg);
+                    //alert("Message is sent...");
+                    // document.getElementById("results").innerHTML = '<img src=loading.gif>';
+                  }
+               };
+               ws.onmessage = function (evt)
+               {
+                  var received_msg = evt.data;
+                  // alert("Message is received..."+received_msg);
+                  ShowImage(image_object,received_msg);
+               };
+               ws.onclose = function()
+               {
+                  // websocket is closed.
+                  //alert("Connection is closed...");
+               };
+               window.onbeforeunload = function(event) {
+                  socket.close();
+               };
+            }
+            else
+            {
+               // The browser doesn't support WebSocket
+               alert("WebSocket NOT supported by your Browser!");
+            }
+         }
+
+
+         function GetImages(received_msg)
+         {
+           var gallery_content = '';
+           var res = received_msg.split(';');
+           var img_query = '';
+           for (i = 0; i < res.length; i++)
+           {
+             gallery_content += '<div class="gallery"><div class="item"><a href="#"><img src="#" id="'+i+'" alt="'+res[i]+'" width="250" height="250" onclick="ClickedImage(this)"></a></div></div>';
+           }
+           document.getElementById("results").innerHTML = gallery_content;
+           for (i = 0; i < res.length; i++)
+           {
+               GetImageContent(document.getElementById(i))
+           }
+         }
+         function WebSocketTest()
+         {
+            if ("WebSocket" in window)
+            {
+               //alert("WebSocket is supported by your Browser!");
+               // Let us open a web socket
+               var ws = new WebSocket("ws://localhost:9998/image_retrieval");
+               ws.onopen = function()
+               {
+                  // Web Socket is connected, send data using send()
+                  var msg = document.getElementById('searchTxt').value
+                  var img_id = document.getElementById('searchTxt').alt
+                  msg = msg.replace('[IMG',img_id)
+                  for (i = 0; i < 20; i++)
+                  {
+                     msg = msg.replace('_'+i.toString()+']','')
+                  }
+                  msg += ';query'
+                  if (msg==''){
+                    document.getElementById("results").innerHTML = '<div style="width:700px; margin:auto;">Random message!</b><div>';
+                  } else if (msg=='Thanks!'){
+                    document.getElementById("results").innerHTML = '<div style="width:700px; margin:auto;"><br><br><br><br><b>Thanks for watching!</b><div>';
+                  } else {
+                    ws.send(msg);
+                    //alert("Message is sent...");
+                    document.getElementById("results").innerHTML = '<img src=loading.gif>';
+                  }
+               };
+               ws.onmessage = function (evt)
+               {
+                  var received_msg = evt.data;
+                  //alert("Message is received..."+received_msg);
+                  GetImages(received_msg);
+               };
+               ws.onclose = function()
+               {
+                  // websocket is closed.
+                  //alert("Connection is closed...");
+               };
+               window.onbeforeunload = function(event) {
+                  socket.close();
+               };
+            }
+            else
+            {
+               // The browser doesn't support WebSocket
+               alert("WebSocket NOT supported by your Browser!");
+            }
+         }
+
+      </script>
+</head>
+<body>
+
+<div class="title">Multi-Modal Semantic Image Retrieval Demo</div>
+<div class="subtitle">A semantic multi-modal space learnt from Social Media data in a self-supervised way. <br> Query using words, images and +/- to build complex queries. </div>
+
+<br>
+
+<div class="form">
+<input type="text" class="textbox" id="searchTxt" placeholder="Search" autocomplete="off">
+<input title="Search" value="" type="button" class="button" id="button" onclick="javascript:WebSocketTest()">
+</div>
+
+<br>
+
+<div id="results" class="results" align="center"><div style="width:700px; margin:auto;">Input a single word query or a complex query. Query elements can be added or subtracted, and can be artitrary words or images (click on retrieved images to use them as queries). <br><br>Example queries: <br> work <br> cold <br> cold-snow <br> people+park <br> train-car <br> travel+paint <br> [IMG_2]+dog <br><br><div> </div>
+
+<script>
+var input = document.getElementById("searchTxt");
+input.addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("button").click();
+    }
+});
+</script>
+ 
+</body>
+</html>
