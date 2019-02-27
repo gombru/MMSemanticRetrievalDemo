@@ -22,6 +22,15 @@ The work is also explained in a more informal way in this blog posts:
 **[What Do People Think about Barcelona?](https://gombru.github.io/2018/01/12/insta_barcelona/)**  
 **[Learning to Learn from Web Data](https://gombru.github.io/2018/08/01/learning_from_web_data/)**  
 
+## Short explanation
+
+We downloaded 1M of Instagram images with their associated captions. We trained a word embedding model using those captions. 
+This model learns nearby representations of words that are semantically similar, and the resulting word embedding space has a semantic structure.
+Several works have shown that we can navigate though word representations in that space doing arithmetics between words representations (ex.: king + woman = queen).
+Then, we trained a CNN to embed images in that space, in the same point as their associated caption. The result is that we are able to generate multi-modal embeddings (for images and text) in an space with semantic structure.
+At the end, we have a system that can compute semantic similarities between words and images.
+This demo shows an straight forward application of it: Multi-Modal Semantic Image Retrieval.
+
 ## Demo configuration
 
 This Demo uses **GloVe word embeddings**. The CNN to generate the image embeddings in the GloVe space has been trained with a **contrastive
