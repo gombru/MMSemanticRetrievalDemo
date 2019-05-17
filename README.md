@@ -5,7 +5,7 @@ This demo lets explore that space, using words and images as queries, and allowi
 
 **Find the running demo [here](https://gombru.github.io/MMSemanticRetrievalDemo/)!**
 
-![demo_img](demo.png)
+![demo_img](https://gombru.github.io/assets/MMSemanticRetrievalDemo/demo_old.png)
 
 ## Publications
 
